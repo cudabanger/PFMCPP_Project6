@@ -56,14 +56,17 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int val, const char* str): value{val}, name{str} 
+    {
+
+    } //1
+    int value;
+    std::string name;
 };
 
-struct <#structName1#>                                //4
+struct CompareDaFunk                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
@@ -73,29 +76,50 @@ struct <#structName1#>                                //4
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float oldFunk { 0 }, newFunk { 0 };
+    float regularFuncA(U* that, float* updatedFunk )      //12
     {
+        std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
         
-    }
-};
-
-struct <#structname2#>
-{
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
-    {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        // check before deref'ing that funk
+        if (updatedFunk == nullptr)
+            return 0;
+            
+        that->oldFunk = *updatedFunk;
+        std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
+        while( std::abs(that->newFunk - that->oldFunk) > 0.001f )
         {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that-><#name2#> += ;
+            that->newFunk += 0.01f;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "U's block2 updated value: " << that->newFunk << std::endl;
+        return that->newFunk * that->oldFunk;
+    }
+};
+
+struct MyUDT2
+{
+    static float staticFuncA(U* that, float* updatedFunk )        //10
+    {
+        std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
+        
+        // check before deref'ing that funk
+        if (updatedFunk == nullptr)
+            return 0;
+        
+        that->oldFunk = *updatedFunk;
+        std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
+        while( std::abs(that->newFunk - that->oldFunk) > 0.001f )
+        {
+            /*
+             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+             */
+            that->newFunk += 0.01f;
+        }
+        std::cout << "U's newFunk updated value: " << that->newFunk << std::endl;
+        return that->newFunk * that->oldFunk;
     }
 };
         
@@ -115,19 +139,20 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T george(1 , "George");                                 //6
+    T bootsy(6 , "Bootsy");                                 //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    CompareDaFunk f;                                        //7
+    auto* smaller = f.compare(&george , &bootsy);           //8
+    if (smaller != nullptr)
+        std::cout << "the smaller one is " << smaller->name << std::endl; //9
     
-    U <#name3#>;
+    U funkBlaster3;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] staticFuncA's multiplied values: " << MyUDT2::staticFuncA(&funkBlaster3 , &updatedValue) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U funkBlaster4;
+    std::cout << "[member func] regularFuncA's multiplied values: " << funkBlaster4.regularFuncA(&funkBlaster4, &updatedValue ) << std::endl;
 }
 
         
