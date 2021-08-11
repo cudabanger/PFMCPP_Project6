@@ -84,7 +84,7 @@ struct U
         // check before deref'ing that funk
         if (updatedFunk == nullptr)
             return 0;
-            
+
         that->oldFunk = *updatedFunk;
         std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
         while( std::abs(that->newFunk - that->oldFunk) > 0.001f )
@@ -94,7 +94,7 @@ struct U
              */
             that->newFunk += 0.01f;
         }
-        std::cout << "U's block2 updated value: " << that->newFunk << std::endl;
+        std::cout << "U's newFunk updated value: " << that->newFunk << std::endl;
         return that->newFunk * that->oldFunk;
     }
 };
