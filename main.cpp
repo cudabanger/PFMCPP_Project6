@@ -102,7 +102,7 @@ struct MyUDT2
         std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
         
         // check before deref'ing all that funk
-        if (updatedFunk == nullptr)
+        if (updatedFunk == nullptr || that == nullptr)
             return 0;
 
         that->oldFunk = *updatedFunk;
