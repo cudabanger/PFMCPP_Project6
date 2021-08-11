@@ -77,25 +77,21 @@ struct CompareDaFunk                                //4
 struct U
 {
     float oldFunk { 0 }, newFunk { 0 };
-    float regularFuncA(U* that, float* updatedFunk )      //12
+    float regularFuncA(float* updatedFunk )      //12
     {
-        std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
-        
-        // check before deref'ing that funk
-        if (updatedFunk == nullptr)
-            return 0;
+        std::cout << "U's oldFunk value: " << oldFunk << std::endl;
 
-        that->oldFunk = *updatedFunk;
-        std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
-        while( std::abs(that->newFunk - that->oldFunk) > 0.001f )
+        oldFunk = *updatedFunk;
+        std::cout << "U's oldFunk updated value: " << oldFunk << std::endl;
+        while( std::abs(newFunk - oldFunk) > 0.001f )
         {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that->newFunk += 0.01f;
+            newFunk += 0.01f;
         }
-        std::cout << "U's newFunk updated value: " << that->newFunk << std::endl;
-        return that->newFunk * that->oldFunk;
+        std::cout << "U's newFunk updated value: " << newFunk << std::endl;
+        return newFunk * oldFunk;
     }
 };
 
@@ -105,10 +101,10 @@ struct MyUDT2
     {
         std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
         
-        // check before deref'ing that funk
+        // check before deref'ing all that funk
         if (updatedFunk == nullptr)
             return 0;
-        
+
         that->oldFunk = *updatedFunk;
         std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
         while( std::abs(that->newFunk - that->oldFunk) > 0.001f )
@@ -152,7 +148,7 @@ int main()
     std::cout << "[static func] staticFuncA's multiplied values: " << MyUDT2::staticFuncA(&funkBlaster3 , &updatedValue) << std::endl;                  //11
     
     U funkBlaster4;
-    std::cout << "[member func] regularFuncA's multiplied values: " << funkBlaster4.regularFuncA(&funkBlaster4, &updatedValue ) << std::endl;
+    std::cout << "[member func] regularFuncA's multiplied values: " << funkBlaster4.regularFuncA(&updatedValue ) << std::endl;
 }
 
         
