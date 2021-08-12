@@ -33,16 +33,12 @@ struct T
 
 struct CompareDaFunk                             //4
 {
-    const T& compare(const T& a, const T& b) hint: There is no reference equivalent to nullptr. if a pointer (including nullptr) is being returned anywhere, don't try to convert it to a reference.
-
-        You have to ask yourself if you can convert a pointer to a reference in this project. Think carefully when making your changes.
-    
-    What was this function returning previously?
+    const T* compare(const T& a, const T& b)
     {
-        if( a.value < b.value ) return a;
-        if( a.value > b.value ) return b;
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
 
-        return a;
+        return nullptr;
     }
 };
 
@@ -107,8 +103,11 @@ int main()
     T bootsy(6 , "Bootsy");                                 //6
     
     CompareDaFunk f;                                        //7
-    auto& smaller = f.compare(george, bootsy);           //8
-    std::cout << "the smaller one is " << smaller.name << std::endl; //9
+    auto* smaller = f.compare(george, bootsy);           //8
+    if (smaller != nullptr)
+        std::cout << "the smaller one is " << smaller->name << std::endl; //9
+    else
+        std::cout << "they are the same." << std::endl; //9
     
     U funkBlaster3;
     float updatedValue = 5.f;
