@@ -79,10 +79,10 @@ struct U
     float oldFunk { 0 }, newFunk { 0 };
     float regularFuncA(float* updatedFunk )      //12
     {
-        std::cout << "U's oldFunk value: " << oldFunk << std::endl;
-
         if (updatedFunk == nullptr)
             return 0;
+
+        std::cout << "U's oldFunk value: " << oldFunk << std::endl;
 
         oldFunk = *updatedFunk;
         std::cout << "U's oldFunk updated value: " << oldFunk << std::endl;
