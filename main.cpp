@@ -31,9 +31,9 @@ struct T
     std::string name;
 };
 
-struct CompareDaFunk                               //4
+struct CompareDaFunk                             //4
 {
-    T& compare(T& a, T& b) const //5
+    const T& compare(const T& a, const T& b) //5
     {
         if( a.value < b.value ) return a;
         if( a.value > b.value ) return b;
