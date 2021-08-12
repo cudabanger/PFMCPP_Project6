@@ -33,7 +33,7 @@ struct T
 
 struct CompareDaFunk                             //4
 {
-    const T* compare(const T& a, const T& b)
+    T* compare(T& a, T& b)
     {
         if( a.value < b.value ) return &a;
         if( a.value > b.value ) return &b;
@@ -103,7 +103,7 @@ int main()
     T bootsy(6 , "Bootsy");                                 //6
     
     CompareDaFunk f;                                        //7
-    auto* smaller = f.compare(george, bootsy);           //8
+    auto* smaller = f.compare(george , bootsy);           //8
     if (smaller != nullptr)
         std::cout << "the smaller one is " << smaller->name << std::endl; //9
     else
