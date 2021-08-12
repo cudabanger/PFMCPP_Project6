@@ -81,6 +81,9 @@ struct U
     {
         std::cout << "U's oldFunk value: " << oldFunk << std::endl;
 
+        if (updatedFunk == nullptr)
+            return 0;
+
         oldFunk = *updatedFunk;
         std::cout << "U's oldFunk updated value: " << oldFunk << std::endl;
         while( std::abs(newFunk - oldFunk) > 0.001f )
@@ -99,11 +102,11 @@ struct MyUDT2
 {
     static float staticFuncA(U* that, float* updatedFunk )        //10
     {
-        std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
-        
         // check before deref'ing all that funk
         if (updatedFunk == nullptr || that == nullptr)
             return 0;
+
+        std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
 
         that->oldFunk = *updatedFunk;
         std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
