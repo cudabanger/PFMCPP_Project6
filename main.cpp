@@ -33,7 +33,11 @@ struct T
 
 struct CompareDaFunk                             //4
 {
-    const T& compare(const T& a, const T& b) //5
+    const T& compare(const T& a, const T& b) hint: There is no reference equivalent to nullptr. if a pointer (including nullptr) is being returned anywhere, don't try to convert it to a reference.
+
+        You have to ask yourself if you can convert a pointer to a reference in this project. Think carefully when making your changes.
+    
+    What was this function returning previously?
     {
         if( a.value < b.value ) return a;
         if( a.value > b.value ) return b;
