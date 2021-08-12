@@ -31,15 +31,13 @@ struct T
     std::string name;
 };
 
-struct CompareDaFunk                                //4
+struct CompareDaFunk                             //4
 {
-    T* compare(T* a, T* b) //5
+    T* compare(T& a, T& b)
     {
-        if (a != nullptr && b != nullptr)
-        {
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;
-        }
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
+
         return nullptr;
     }
 };
@@ -47,14 +45,11 @@ struct CompareDaFunk                                //4
 struct U
 {
     float oldFunk { 0 }, newFunk { 0 };
-    float regularFuncA(float* updatedFunk )      //12
+    float regularFuncA(const float& updatedFunk )      //12
     {
-        if (updatedFunk == nullptr)
-            return 0;
-
         std::cout << "U's oldFunk value: " << oldFunk << std::endl;
 
-        oldFunk = *updatedFunk;
+        oldFunk = updatedFunk;
         std::cout << "U's oldFunk updated value: " << oldFunk << std::endl;
         while( std::abs(newFunk - oldFunk) > 0.001f )
         {
@@ -70,25 +65,21 @@ struct U
 
 struct MyUDT2
 {
-    static float staticFuncA(U* that, float* updatedFunk )        //10
+    static float staticFuncA(U& that, const float& updatedFunk )        //10
     {
-        // check before deref'ing all that funk
-        if (updatedFunk == nullptr || that == nullptr)
-            return 0;
+        std::cout << "U's oldFunk value: " << that.oldFunk << std::endl;
 
-        std::cout << "U's oldFunk value: " << that->oldFunk << std::endl;
-
-        that->oldFunk = *updatedFunk;
-        std::cout << "U's oldFunk updated value: " << that->oldFunk << std::endl;
-        while( std::abs(that->newFunk - that->oldFunk) > 0.001f )
+        that.oldFunk = updatedFunk;
+        std::cout << "U's oldFunk updated value: " << that.oldFunk << std::endl;
+        while( std::abs(that.newFunk - that.oldFunk) > 0.001f )
         {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that->newFunk += 0.01f;
+            that.newFunk += 0.01f;
         }
-        std::cout << "U's newFunk updated value: " << that->newFunk << std::endl;
-        return that->newFunk * that->oldFunk;
+        std::cout << "U's newFunk updated value: " << that.newFunk << std::endl;
+        return that.newFunk * that.oldFunk;
     }
 };
         
@@ -112,16 +103,18 @@ int main()
     T bootsy(6 , "Bootsy");                                 //6
     
     CompareDaFunk f;                                        //7
-    auto* smaller = f.compare(&george , &bootsy);           //8
+    auto* smaller = f.compare(george , bootsy);           //8
     if (smaller != nullptr)
         std::cout << "the smaller one is " << smaller->name << std::endl; //9
+    else
+        std::cout << "they are the same." << std::endl; //9
     
     U funkBlaster3;
     float updatedValue = 5.f;
-    std::cout << "[static func] staticFuncA's multiplied values: " << MyUDT2::staticFuncA(&funkBlaster3 , &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] staticFuncA's multiplied values: " << MyUDT2::staticFuncA(funkBlaster3 , updatedValue) << std::endl;                  //11
     
     U funkBlaster4;
-    std::cout << "[member func] regularFuncA's multiplied values: " << funkBlaster4.regularFuncA(&updatedValue ) << std::endl;
+    std::cout << "[member func] regularFuncA's multiplied values: " << funkBlaster4.regularFuncA(updatedValue ) << std::endl;
 }
 
         
